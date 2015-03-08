@@ -28,9 +28,7 @@ class Validation
     private function checkServiceIsDefined($serviceId, DiConfig $diConfig)
     {
         if (!$diConfig->serviceIsDefined($serviceId)) {
-            $exception = new ServiceDefinitionNotFound();
-            $exception->setServiceId($serviceId);
-            throw $exception;
+            throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
         }
     }
 
@@ -56,9 +54,7 @@ class Validation
     private function cyclicDependencyTest(DiConfig $diConfig, $originallyRequestedServiceId, $serviceIdToTest, $parentDependencies)
     {
         if (in_array($serviceIdToTest, $parentDependencies)) {
-            $exception = new CyclicDependencyInDiConfig();
-            $exception->setServiceId($originallyRequestedServiceId);
-            throw $exception;
+            throw CyclicDependencyInDiConfig::constructWithServiceId($originallyRequestedServiceId);
         }
         foreach ($diConfig->getArguments($serviceIdToTest) as $childDependencyId) {
             $this->cyclicDependencyTest(

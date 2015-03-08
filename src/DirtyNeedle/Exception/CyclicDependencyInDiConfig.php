@@ -7,9 +7,12 @@ class CyclicDependencyInDiConfig extends RuntimeException
 {
     /**
      * @param string $serviceId
+     * @return static
      */
-    public function setServiceId($serviceId)
+    public static function constructWithServiceId($serviceId)
     {
-        $this->message = 'Cyclic dependency found while trying to retrieve "' . $serviceId . '" from container';
+        $exception = new static();
+        $exception->message = 'Cyclic dependency found while trying to retrieve "' . $serviceId . '" from container';
+        return $exception;
     }
 }

@@ -3,6 +3,8 @@ namespace DirtyNeedle;
 
 use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
+use DirtyNeedle\Exception\DiConfigNotFound;
+use DirtyNeedle\Exception\DiConfigNotReadable;
 
 class DiContainer
 {
@@ -73,6 +75,9 @@ class DiContainer
     }
 
     /**
+     * @throws DiConfigNotFound
+     * @throws DiConfigNotReadable
+     *
      * @param string $pathToFile
      */
     public function addConfigFile($pathToFile)
