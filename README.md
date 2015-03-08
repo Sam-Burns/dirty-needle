@@ -31,7 +31,7 @@ Then get stuff out of your container, like this:
 ```php
 $diContainer = new \DirtyNeedle\DiContainer();
 $diContainer->addConfigFile('/path/to/config.php');
-echo $diContainer->get('class-with-dependency') instanceof '\ClassWithDependency'; // true
+$classWithDependency = $diContainer->get('class-with-dependency');
 ```
 
 Releases are available supporting PHP5.3-5.6, with the 5.6-compatible releases being significantly faster in their implementation.
