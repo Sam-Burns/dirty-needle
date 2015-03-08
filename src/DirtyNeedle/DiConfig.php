@@ -1,18 +1,46 @@
 <?php
 namespace DirtyNeedle;
 
+use DirtyNeedle\Exception\DiConfigNotFound;
+use DirtyNeedle\Exception\DiConfigNotReadable;
+
 class DiConfig
 {
     /** @var array */
     private $definitions = array();
 
     /**
+     * @throws DiConfigNotFound
+     * @throws DiConfigNotReadable
+     *
      * @param string $pathToFile
      */
     public function addConfigFile($pathToFile)
     {
-        $fileContents = require $pathToFile;
-        $this->definitions = array_merge($this->definitions, $fileContents['dirty-needle']);
+        $this->definitions = array_merge($this->definitions, $this->getSettingsInFile($pathToFile));
+    }
+
+    /**
+     * @throws DiConfigNotFound
+     * @throws DiConfigNotReadable
+     *
+     * @param string $path
+     * @return array
+     */
+    private function getSettingsInFile($path)
+    {
+        if (!is_readable($path)) {
+            throw DiConfigNotReadable::constructWithFilename($path);
+        }
+        $fileContents = require $path;
+        if (
+            !is_array($fileContents) ||
+            !isset($fileContents['dirty-needle']) ||
+            !is_array($fileContents['dirty-needle'])
+        ) {
+            throw DiConfigNotFound::constructWithFilename($path);
+        }
+        return $fileContents['dirty-needle'];
     }
 
     /**

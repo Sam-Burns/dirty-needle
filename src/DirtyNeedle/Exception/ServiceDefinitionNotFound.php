@@ -7,9 +7,12 @@ class ServiceDefinitionNotFound extends RuntimeException
 {
     /**
      * @param string $serviceId
+     * @return static
      */
-    public function setServiceId($serviceId)
+    public static function constructWithServiceId($serviceId)
     {
-        $this->message = 'Service ID "' . $serviceId . '" not found in DI config.';
+        $exception = new static();
+        $exception->message = 'Service ID "' . $serviceId . '" not found in DI config.';
+        return $exception;
     }
 }
