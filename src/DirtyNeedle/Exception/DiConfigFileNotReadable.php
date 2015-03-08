@@ -1,7 +1,7 @@
 <?php
 namespace DirtyNeedle\Exception;
 
-class DiConfigNotReadable
+class DiConfigNotReadable extends DirtyNeedleException
 {
     /**
      * @param string $filename

@@ -1,9 +1,7 @@
 <?php
 namespace DirtyNeedle\Exception;
 
-use RuntimeException;
-
-class ServiceDefinitionNotFound extends RuntimeException
+class ServiceDefinitionNotFound extends DirtyNeedleException
 {
     /**
      * @param string $serviceId

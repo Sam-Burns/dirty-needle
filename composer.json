@@ -22,6 +22,9 @@
     "autoload-dev": {
         "psr-0": {
             "DirtyNeedle\\PhpunitTest\\": "tests/phpunit/"
+        },
+        "psr-4": {
+            "DirtyNeedle\\BlackfireTest\\FixtureClasses\\": "tests/blackfire/FixtureClasses"
         }
     }
 }
