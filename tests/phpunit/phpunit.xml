@@ -1,0 +1,9 @@
+<phpunit convertErrorsToExceptions="true" colors="true" bootstrap="bootstrap.php">
+
+    <testsuites>
+        <testsuite name="All">
+            <directory>DirtyNeedle</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>
