@@ -13,7 +13,7 @@ class DiContainer
     private $objects = array();
 
     /** @var array */
-    private $definitions = [];
+    private $definitions = array();
 
     private function __construct()
     {
