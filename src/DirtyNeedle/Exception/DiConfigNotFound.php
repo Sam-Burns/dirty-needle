@@ -1,7 +1,7 @@
 <?php
 namespace DirtyNeedle\Exception;
 
-class DiConfigNotFound
+class DiConfigNotFound extends DirtyNeedleException
 {
     /**
      * @param string $filename

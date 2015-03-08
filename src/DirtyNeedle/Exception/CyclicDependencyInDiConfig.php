@@ -1,9 +1,7 @@
 <?php
 namespace DirtyNeedle\Exception;
 
-use RuntimeException;
-
-class CyclicDependencyInDiConfig extends RuntimeException
+class CyclicDependencyInDiConfig extends DirtyNeedleException
 {
     /**
      * @param string $serviceId
