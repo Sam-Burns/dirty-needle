@@ -1,6 +1,8 @@
 <?php
 namespace DirtyNeedle;
 
+use DirtyNeedle\Exception\ServiceDefinitionNotFound;
+
 class DiContainer
 {
     /** @var DiContainer */
@@ -38,6 +40,8 @@ class DiContainer
     }
 
     /**
+     * @throws ServiceDefinitionNotFound
+     *
      * @param $serviceId
      * @return object
      */
@@ -45,6 +49,11 @@ class DiContainer
     {
         if (isset($objects[$serviceId])) {
             return $objects[$serviceId];
+        }
+        if (!isset($this->definitions[$serviceId])) {
+            $exception = new ServiceDefinitionNotFound();
+            $exception->setServiceId($serviceId);
+            throw $exception;
         }
         return $this->buildObjectFromDefinition($this->definitions[$serviceId]);
     }
