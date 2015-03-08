@@ -1,0 +1,72 @@
+<?php
+namespace DirtyNeedle;
+
+use DirtyNeedle\Exception\ServiceDefinitionNotFound;
+use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
+
+class Validation
+{
+    /**
+     * @throws ServiceDefinitionNotFound
+     * @throws CyclicDependencyInDiConfig
+     *
+     * @param string   $serviceId
+     * @param DiConfig $diConfig
+     */
+    public function validateServiceRequested($serviceId, DiConfig $diConfig)
+    {
+        $this->checkServiceIsDefined($serviceId, $diConfig);
+        $this->checkForCyclicDependencies($serviceId, $diConfig);
+    }
+
+    /**
+     * @throws ServiceDefinitionNotFound
+     *
+     * @param string   $serviceId
+     * @param DiConfig $diConfig
+     */
+    private function checkServiceIsDefined($serviceId, DiConfig $diConfig)
+    {
+        if (!$diConfig->serviceIsDefined($serviceId)) {
+            $exception = new ServiceDefinitionNotFound();
+            $exception->setServiceId($serviceId);
+            throw $exception;
+        }
+    }
+
+    /**
+     * @throws CyclicDependencyInDiConfig
+     *
+     * @param string   $serviceId
+     * @param DiConfig $diConfig
+     */
+    private function checkForCyclicDependencies($serviceId, DiConfig $diConfig)
+    {
+        $this->cyclicDependencyTest($diConfig, $serviceId, $serviceId, []);
+    }
+
+    /**
+     * @throws CyclicDependencyInDiConfig
+     *
+     * @param DiConfig $diConfig
+     * @param string   $originallyRequestedServiceId
+     * @param string   $serviceIdToTest
+     * @param array    $parentDependencies
+     */
+    private function cyclicDependencyTest(DiConfig $diConfig, $originallyRequestedServiceId, $serviceIdToTest, $parentDependencies)
+    {
+        if (in_array($serviceIdToTest, $parentDependencies)) {
+            $exception = new CyclicDependencyInDiConfig();
+            $exception->setServiceId($originallyRequestedServiceId);
+            throw $exception;
+        }
+        foreach ($diConfig->getArguments($serviceIdToTest) as $childDependencyId) {
+            $this->cyclicDependencyTest(
+                $diConfig,
+                $originallyRequestedServiceId,
+                $childDependencyId,
+                array_merge($parentDependencies, [$serviceIdToTest])
+            );
+        }
+    }
+}
