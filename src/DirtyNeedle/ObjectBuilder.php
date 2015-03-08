@@ -10,10 +10,6 @@ class ObjectBuilder
      */
     public function buildObject($classname, $constructorArguments)
     {
-        if (!count($constructorArguments)) {
-            return new $classname;
-        }
-        $reflectionClass = new \ReflectionClass($classname);
-        return $reflectionClass->newInstanceArgs($constructorArguments);
+        return new $classname(...$constructorArguments);
     }
 }
