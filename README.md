@@ -33,3 +33,5 @@ $diContainer = new \DirtyNeedle\DiContainer();
 $diContainer->addConfigFile('/path/to/config.php');
 var_dump($diContainer->get('class-with-dependency')); // Is the object
 ```
+
+Releases are available supporting PHP5.3-5.6, with the 5.6-compatible releases being significantly faster in their implementation.
