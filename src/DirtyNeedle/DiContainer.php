@@ -35,8 +35,8 @@ class DiContainer
 
     public function reset()
     {
-        $this->objects = [];
-        $this->definitions = [];
+        $this->objects = array();
+        $this->definitions = array();
     }
 
     /**
