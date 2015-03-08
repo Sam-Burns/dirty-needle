@@ -3,10 +3,39 @@ namespace DirtyNeedle;
 
 class DiContainer
 {
+    /** @var DiContainer */
+    private static $instance;
+
+    /** @var ObjectBuilder */
+    private $objectBuilder;
+
     /** @var object[] */
     private $objects = array();
 
-    private $definitions = array();
+    /** @var array */
+    private $definitions = [];
+
+    private function __construct()
+    {
+        $this->objectBuilder = new ObjectBuilder();
+    }
+
+    /**
+     * @return DiContainer
+     */
+    public static function getInstance()
+    {
+        if (!static::$instance) {
+            static::$instance = new static();
+        }
+        return static::$instance;
+    }
+
+    public function reset()
+    {
+        $this->objects = [];
+        $this->definitions = [];
+    }
 
     /**
      * @param $serviceId

@@ -11,8 +11,13 @@ class DiContainerTest extends TestCase
 
     public function setUp()
     {
-        $this->diContainer = new DiContainer();
+        $this->diContainer = DiContainer::getInstance();
         $this->diContainer->addConfigFile(__DIR__ . '/../../../fixtures/config_files/sample_di_config.php');
+    }
+
+    public function tearDown()
+    {
+        $this->diContainer->reset();
     }
 
     public function testGettingSimpleClass()
