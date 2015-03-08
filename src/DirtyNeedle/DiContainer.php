@@ -82,7 +82,7 @@ class DiContainer
         foreach ($definitionArray['arguments'] as $argumentServiceId) {
             $arguments[] = $this->get($argumentServiceId);
         }
-        $reflectionClass = new \ReflectionClass($classname);
-        return $reflectionClass->newInstanceArgs($arguments);
+
+        return $this->objectBuilder->buildObject($classname, $arguments);
     }
 }
