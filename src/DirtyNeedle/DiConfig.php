@@ -1,8 +1,10 @@
 <?php
 namespace DirtyNeedle;
 
+use DirtyNeedle\Exception\ClassnameNotSpecifiedForDependency;
 use DirtyNeedle\Exception\DiConfigNotFound;
 use DirtyNeedle\Exception\DiConfigNotReadable;
+use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 
 class DiConfig
 {
@@ -53,20 +55,34 @@ class DiConfig
     }
 
     /**
+     * @throws ServiceDefinitionNotFound
+     * @throws ClassnameNotSpecifiedForDependency
+     *
      * @param string $serviceId
      * @return string
      */
     public function getClassname($serviceId)
     {
+        if (!$this->serviceIsDefined($serviceId)) {
+            throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
+        }
+        if (!isset($this->definitions[$serviceId]['class'])) {
+            throw ClassnameNotSpecifiedForDependency::constructWithServiceId($serviceId);
+        }
         return $this->definitions[$serviceId]['class'];
     }
 
     /**
+     * @throws ServiceDefinitionNotFound
+     *
      * @param string $serviceId
      * @return string[]
      */
     public function getArguments($serviceId)
     {
+        if (!$this->serviceIsDefined($serviceId)) {
+            throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
+        }
         if (!$this->serviceHasNoArguments($serviceId)) {
             return $this->definitions[$serviceId]['arguments'];
         }
@@ -74,11 +90,16 @@ class DiConfig
     }
 
     /**
+     * @throws ServiceDefinitionNotFound
+     *
      * @param string $serviceId
      * @return bool
      */
     public function serviceHasNoArguments($serviceId)
     {
+        if (!$this->serviceIsDefined($serviceId)) {
+            throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
+        }
         return !isset($this->definitions[$serviceId]['arguments']);
     }
 
