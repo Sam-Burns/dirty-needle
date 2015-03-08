@@ -8,7 +8,7 @@ use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 
 class DiConfig
 {
-    /** @var array */
+    /** @var ServiceDefinition[] */
     private $definitions = array();
 
     /**
@@ -19,7 +19,7 @@ class DiConfig
      */
     public function addConfigFile($pathToFile)
     {
-        $this->definitions = array_merge($this->definitions, $this->getSettingsInFile($pathToFile));
+        $this->definitions = array_merge($this->definitions, $this->getServiceDefinitionsFromFile($pathToFile));
     }
 
     /**
@@ -27,14 +27,39 @@ class DiConfig
      * @throws DiConfigNotReadable
      *
      * @param string $path
-     * @return array
+     * @return ServiceDefinition[]
      */
-    private function getSettingsInFile($path)
+    private function getServiceDefinitionsFromFile($path)
+    {
+        $this->checkFileIsReadable($path);
+
+        $fileContents = require $path;
+
+        $this->checkFileContentsIncludesDiConfig($fileContents, $path);
+
+        return $this->convertFileContentsToServiceDefinitions($fileContents);
+    }
+
+    /**
+     * @throws DiConfigNotReadable
+     *
+     * @param string $path
+     */
+    private function checkFileIsReadable($path)
     {
         if (!is_readable($path)) {
             throw DiConfigNotReadable::constructWithFilename($path);
         }
-        $fileContents = require $path;
+    }
+
+    /**
+     * DiConfigNotFound
+     *
+     * @param mixed  $fileContents
+     * @param string $path
+     */
+    private function checkFileContentsIncludesDiConfig($fileContents, $path)
+    {
         if (
             !is_array($fileContents) ||
             !isset($fileContents['dirty-needle']) ||
@@ -42,7 +67,19 @@ class DiConfig
         ) {
             throw DiConfigNotFound::constructWithFilename($path);
         }
-        return $fileContents['dirty-needle'];
+    }
+
+    /**
+     * @param array $fileContents
+     * @return ServiceDefinition[]
+     */
+    private function convertFileContentsToServiceDefinitions($fileContents)
+    {
+        $serviceDefinitions = [];
+        foreach ($fileContents['dirty-needle'] as $serviceId => $serviceDefinitionArray) {
+            $serviceDefinitions[$serviceId] = new ServiceDefinition($serviceId, $serviceDefinitionArray);
+        };
+        return $serviceDefinitions;
     }
 
     /**
@@ -66,10 +103,7 @@ class DiConfig
         if (!$this->serviceIsDefined($serviceId)) {
             throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
         }
-        if (!isset($this->definitions[$serviceId]['class'])) {
-            throw ClassnameNotSpecifiedForDependency::constructWithServiceId($serviceId);
-        }
-        return $this->definitions[$serviceId]['class'];
+        return $this->definitions[$serviceId]->getClass();
     }
 
     /**
@@ -83,10 +117,7 @@ class DiConfig
         if (!$this->serviceIsDefined($serviceId)) {
             throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
         }
-        if (!$this->serviceHasNoArguments($serviceId)) {
-            return $this->definitions[$serviceId]['arguments'];
-        }
-        return [];
+        return $this->definitions[$serviceId]->getArguments();
     }
 
     /**
@@ -97,10 +128,7 @@ class DiConfig
      */
     public function serviceHasNoArguments($serviceId)
     {
-        if (!$this->serviceIsDefined($serviceId)) {
-            throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
-        }
-        return !isset($this->definitions[$serviceId]['arguments']);
+        return !$this->definitions[$serviceId]->hasArguments();
     }
 
     public function reset()
