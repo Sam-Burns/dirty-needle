@@ -2,6 +2,7 @@
 namespace DirtyNeedle;
 
 use DirtyNeedle\Exception\ServiceDefinitionNotFound;
+use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
 
 class DiContainer
 {
@@ -14,12 +15,17 @@ class DiContainer
     /** @var object[] */
     private $objects = array();
 
-    /** @var array */
-    private $definitions = array();
+    /** @var DiConfig */
+    private $diConfig;
+
+    /** @var Validation */
+    private $validation;
 
     private function __construct()
     {
         $this->objectBuilder = new ObjectBuilder();
+        $this->diConfig = new DiConfig();
+        $this->validation = new Validation();
     }
 
     /**
@@ -36,11 +42,12 @@ class DiContainer
     public function reset()
     {
         $this->objects = array();
-        $this->definitions = array();
+        $this->diConfig->reset();
     }
 
     /**
      * @throws ServiceDefinitionNotFound
+     * @throws CyclicDependencyInDiConfig
      *
      * @param $serviceId
      * @return object
@@ -50,12 +57,10 @@ class DiContainer
         if (isset($objects[$serviceId])) {
             return $objects[$serviceId];
         }
-        if (!isset($this->definitions[$serviceId])) {
-            $exception = new ServiceDefinitionNotFound();
-            $exception->setServiceId($serviceId);
-            throw $exception;
-        }
-        return $this->buildObjectFromDefinition($this->definitions[$serviceId]);
+
+        $this->validation->validateServiceRequested($serviceId, $this->diConfig);
+
+        return $this->buildObject($serviceId);
     }
 
     /**
@@ -72,23 +77,22 @@ class DiContainer
      */
     public function addConfigFile($pathToFile)
     {
-        $fileContents = require $pathToFile;
-        $this->definitions = array_merge($this->definitions, $fileContents['dirty-needle']['services']);
+        $this->diConfig->addConfigFile($pathToFile);
     }
 
     /**
-     * @param array $definitionArray
+     * @param string $serviceId
      * @return object
      */
-    private function buildObjectFromDefinition($definitionArray)
+    private function buildObject($serviceId)
     {
-        $classname = $definitionArray['class'];
-        if (!isset($definitionArray['arguments'])) {
+        $classname = $this->diConfig->getClassname($serviceId);
+        if ($this->diConfig->serviceHasNoArguments($serviceId)) {
             return new $classname;
         }
 
         $arguments = [];
-        foreach ($definitionArray['arguments'] as $argumentServiceId) {
+        foreach ($this->diConfig->getArguments($serviceId) as $argumentServiceId) {
             $arguments[] = $this->get($argumentServiceId);
         }
 
