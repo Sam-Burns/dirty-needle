@@ -4,9 +4,9 @@ namespace DirtyNeedle;
 class DiContainer
 {
     /** @var object[] */
-    private $objects = [];
+    private $objects = array();
 
-    private $definitions = [];
+    private $definitions = array();
 
     /**
      * @param $serviceId
