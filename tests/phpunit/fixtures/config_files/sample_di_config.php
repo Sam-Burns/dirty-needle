@@ -4,24 +4,20 @@ return array(
 
     'dirty-needle' => array(
 
-        'services' => array(
+        'simple-class' => array(
+            'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithNoDependencies'
+        ),
 
-            'simple-class' => array(
-                'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithNoDependencies'
-            ),
+        'simple-dependency' => array(
+            'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\SimpleDependency'
+        ),
 
-            'simple-dependency' => array(
-                'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\SimpleDependency'
-            ),
-
-            'class-with-one-dependency' => array(
-                'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithOneDependency',
-                'arguments' => array(
-                    'simple-dependency'
-                )
-            ),
-
-        )
+        'class-with-one-dependency' => array(
+            'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithOneDependency',
+            'arguments' => array(
+                'simple-dependency'
+            )
+        ),
 
     )
 

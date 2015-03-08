@@ -12,7 +12,7 @@ class DiConfig
     public function addConfigFile($pathToFile)
     {
         $fileContents = require $pathToFile;
-        $this->definitions = array_merge($this->definitions, $fileContents['dirty-needle']['services']);
+        $this->definitions = array_merge($this->definitions, $fileContents['dirty-needle']);
     }
 
     /**
@@ -24,6 +24,10 @@ class DiConfig
         return isset($this->definitions[$serviceId]);
     }
 
+    /**
+     * @param string $serviceId
+     * @return string
+     */
     public function getClassname($serviceId)
     {
         return $this->definitions[$serviceId]['class'];
