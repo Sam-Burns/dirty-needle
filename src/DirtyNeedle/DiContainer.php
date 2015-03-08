@@ -53,7 +53,7 @@ class DiContainer
         foreach ($definitionArray['arguments'] as $argumentServiceId) {
             $arguments[] = $this->get($argumentServiceId);
         }
-        $reflectionClass = new \ReflectionClass($classname);
-        return $reflectionClass->newInstanceArgs($arguments);
+
+        return new $classname(...$arguments);
     }
 }
