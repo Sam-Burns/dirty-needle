@@ -83,6 +83,6 @@ class DiContainer
             $arguments[] = $this->get($argumentServiceId);
         }
 
-        return new $classname(...$arguments);
+        return $this->objectBuilder->buildObject($classname, $arguments);
     }
 }
