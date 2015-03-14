@@ -1,0 +1,7 @@
+suites:
+
+    Main:
+        namespace: DirtyNeedle
+        spec_prefix: DirtyNeedleSpec
+        src_path: src/
+        spec_path:  tests/phpspec/

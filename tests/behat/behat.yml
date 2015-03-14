@@ -1,0 +1,8 @@
+default:
+
+    suites:
+
+        all_features:
+            paths:    [ %paths.base%/features/feature_files ]
+            filters:  { tags: ~wip }
+            contexts: [ FeatureContext ]

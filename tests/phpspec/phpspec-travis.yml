@@ -1,0 +1,20 @@
+suites:
+
+    Main:
+        namespace: DirtyNeedle
+        spec_prefix: DirtyNeedleSpec
+        src_path: src/
+        spec_path:  tests/phpspec/
+
+extensions:
+    - PhpSpec\Extension\CodeCoverageExtension
+
+formatter.name: dot
+
+code_coverage:
+    whitelist:
+        - src/
+    format:
+        - clover
+    output:
+        clover: build/logs/clover.xml
