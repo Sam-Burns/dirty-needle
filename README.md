@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Sam-Burns/dirty-needle.svg?branch=master)](https://travis-ci.org/Sam-Burns/dirty-needle)
-<!--[![Coverage Status](https://coveralls.io/repos/Sam-Burns/dirty-needle/badge.svg?branch=master)](https://coveralls.io/r/Sam-Burns/dirty-needle?branch=master)-->
+[![Coverage Status](https://coveralls.io/repos/Sam-Burns/dirty-needle/badge.svg?branch=master)](https://coveralls.io/r/Sam-Burns/dirty-needle?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Sam-Burns/dirty-needle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Sam-Burns/dirty-needle/?branch=master)
 
 dirty-needle
