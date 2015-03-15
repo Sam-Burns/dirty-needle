@@ -5,6 +5,8 @@
 
     "description": "Dependency Injection container for PHP",
 
+    "license": "MIT",
+
     "require": {
         "php" : ">= 5.4.0"
     },
