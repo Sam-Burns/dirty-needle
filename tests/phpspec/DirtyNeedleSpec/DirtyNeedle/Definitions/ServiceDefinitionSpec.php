@@ -40,4 +40,18 @@ class ServiceDefinitionSpec extends ObjectBehavior
     {
         $this->hasArguments()->shouldBe(true);
     }
+
+    function it_can_throw_exception_if_there_isnt_a_classname()
+    {
+        // ARRANGE
+
+        $serviceId = 'service-id';
+
+        $definitionArray = ['class' => ''];
+
+        $this->beConstructedWith($serviceId, $definitionArray);
+
+        // ACT & ASSERT
+        $this->shouldThrow('\DirtyNeedle\Exception\ClassnameNotSpecifiedForDependency')->duringGetClass();
+    }
 }

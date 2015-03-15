@@ -32,7 +32,7 @@ class ServiceDefinition
      */
     public function getClass()
     {
-        if (!isset($this->definitionArray['class'])) {
+        if (!isset($this->definitionArray['class']) || strlen($this->definitionArray['class']) == 0) {
             throw ClassnameNotSpecifiedForDependency::constructWithServiceId($this->serviceId);
         }
         return $this->definitionArray['class'];
