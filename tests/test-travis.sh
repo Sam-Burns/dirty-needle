@@ -10,7 +10,7 @@ vendor/bin/phpspec run --config tests/phpspec/phpspec-travis.yml;
 echo -e '\n\n###############';
 echo '### PHPUNIT ###';
 echo -e '###############\n\n';
-vendor/bin/phpunit --config tests/phpunit/phpunit.xml;
+vendor/bin/phpunit --config tests/phpunit/phpunit-travis.xml;
 
 echo -e '\n\n####################';
 echo '### BEHAT INLINE ###';
