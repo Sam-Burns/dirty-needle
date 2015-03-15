@@ -4,7 +4,6 @@ namespace DirtyNeedle;
 use DirtyNeedle\ObjectBuilding\ObjectBuilder;
 use DirtyNeedle\Definitions\Validation;
 use DirtyNeedle\Configuration\DiConfig;
-
 use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
 use DirtyNeedle\Exception\DiConfigNotFound;
@@ -13,21 +12,21 @@ use DirtyNeedle\Exception\DiConfigNotReadable;
 class DiContainer
 {
     /** @var DiContainer */
-    private static $instance;
+    protected static $instance;
 
     /** @var ObjectBuilder */
-    private $objectBuilder;
+    protected $objectBuilder;
 
     /** @var object[] */
-    private $objects = [];
+    protected $objects = [];
 
     /** @var DiConfig */
-    private $diConfig;
+    protected $diConfig;
 
     /** @var Validation */
-    private $validation;
+    protected $validation;
 
-    private function __construct()
+    protected function __construct()
     {
         $this->objectBuilder = new ObjectBuilder();
         $this->diConfig = new DiConfig();
@@ -55,7 +54,7 @@ class DiContainer
      * @throws ServiceDefinitionNotFound
      * @throws CyclicDependencyInDiConfig
      *
-     * @param $serviceId
+     * @param string $serviceId
      * @return object
      */
     public function get($serviceId)
