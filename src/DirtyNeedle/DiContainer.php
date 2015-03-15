@@ -8,6 +8,7 @@ use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
 use DirtyNeedle\Exception\DiConfigNotFound;
 use DirtyNeedle\Exception\DiConfigNotReadable;
+use DirtyNeedle\ObjectBuilding\ObjectBuilderFactory;
 
 class DiContainer
 {
@@ -28,7 +29,8 @@ class DiContainer
 
     protected function __construct()
     {
-        $this->objectBuilder = new ObjectBuilder();
+        $objectBuilderFactory = new ObjectBuilderFactory();
+        $this->objectBuilder = $objectBuilderFactory->getObjectBuilder();
         $this->diConfig = new DiConfig();
         $this->validation = new Validation();
     }
