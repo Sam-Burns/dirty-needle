@@ -7,3 +7,8 @@ Feature: Configuring the container and retrieving an object
     Given my container is configured with 'sample_di_config.php'
     When I get the service 'simple-class' out of the container
     Then the result should be an instance of '\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithNoDependencies'
+
+  Scenario: Trying to get a service which doesn't exist
+    Given my container is configured with 'sample_di_config.php'
+    When I try to get the service 'doesnt-exist' out of the container
+    Then I should get a 'ServiceDefinitionNotFound' exception

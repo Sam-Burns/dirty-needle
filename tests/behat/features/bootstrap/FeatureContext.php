@@ -15,6 +15,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /** @var object */
     private $latestResultFromContainer;
 
+    /** @var \Exception */
+    private $lastExceptionFromContainer;
+
     public function __construct()
     {
         require_once __DIR__ . '/../../../bootstrap.php';
@@ -70,6 +73,28 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function theResultShouldBeAnInstanceOf($classname)
     {
         $this->assertResultInstanceOf($classname);
+    }
+
+    /**
+     * @When I try to get the service :serviceId out of the container
+     */
+    public function iTryToGetTheServiceOutOfTheContainer($serviceId)
+    {
+        try {
+            $this->container->get($serviceId);
+        } catch (\Exception $exception) {
+            $this->lastExceptionFromContainer = $exception;
+        }
+    }
+
+    /**
+     * @Then I should get a :exceptionClassname exception
+     */
+    public function iShouldGetAException($exceptionClassname)
+    {
+        $fullyQualifiedClassname = get_class($this->lastExceptionFromContainer);
+        $simpleClassname = preg_replace('/^.+\\\([a-z]+)$/i', '$1', $fullyQualifiedClassname);
+        PHPUnit_Framework_Assert::assertEquals($simpleClassname, $exceptionClassname);
     }
 
     /**
