@@ -3,6 +3,9 @@ namespace DirtyNeedle\ObjectBuilding\LanguageVersionSpecific;
 
 use DirtyNeedle\ObjectBuilding\ObjectBuilder;
 
+/**
+ * This class is instantiated by the ObjectBuilderFactory class.  It should only be autoloaded in < PHP5.6.0
+ */
 class Php54ObjectBuilder implements ObjectBuilder
 {
     /**
