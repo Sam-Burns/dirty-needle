@@ -2,7 +2,6 @@
 namespace DirtyNeedle\PhpunitTest\ClassTests\ObjectBuilding;
 
 use DirtyNeedle\ObjectBuilding\ObjectBuilderFactory;
-use DirtyNeedle\TestFixtures\NestedDependencies\ClassWithOneDependency;
 use DirtyNeedle\TestFixtures\Simple\SimpleDependency;
 
 class ObjectBuilderIntegrationTest extends \PHPUnit_Framework_TestCase
