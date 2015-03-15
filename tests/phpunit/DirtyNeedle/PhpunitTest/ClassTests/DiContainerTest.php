@@ -19,7 +19,7 @@ class DiContainerTest extends TestCase
      */
     private function diIsConfiguredWith($fixtureFilename)
     {
-        $this->diContainer->addConfigFile(__DIR__ . '/../../../fixtures/config_files/' . $fixtureFilename);
+        $this->diContainer->addConfigFile(DIRTYNEEDLE_TEST_DIR . '/fixtures/config_files/' . $fixtureFilename);
     }
 
     public function tearDown()
@@ -31,14 +31,14 @@ class DiContainerTest extends TestCase
     {
         $this->diIsConfiguredWith('sample_di_config.php');
         $result = $this->diContainer->get('simple-class');
-        $this->assertInstanceOf('\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithNoDependencies', $result);
+        $this->assertInstanceOf('\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithNoDependencies', $result);
     }
 
     public function testGettingClassWithDependency()
     {
         $this->diIsConfiguredWith('sample_di_config.php');
         $result = $this->diContainer->get('class-with-one-dependency');
-        $this->assertInstanceOf('\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithOneDependency', $result);
+        $this->assertInstanceOf('\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithOneDependency', $result);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
-namespace DirtyNeedle\PhpunitTest\FixtureClasses;
+namespace DirtyNeedle\TestFixtures\NestedDependencies;
+
+use DirtyNeedle\TestFixtures\Simple\SimpleDependency;
 
 class ClassWithOneDependency
 {

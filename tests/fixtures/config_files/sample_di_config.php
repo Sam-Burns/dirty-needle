@@ -5,15 +5,15 @@ return array(
     'dirty-needle' => array(
 
         'simple-class' => array(
-            'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithNoDependencies'
+            'class' => '\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithNoDependencies'
         ),
 
         'simple-dependency' => array(
-            'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\SimpleDependency'
+            'class' => '\DirtyNeedle\TestFixtures\Simple\SimpleDependency'
         ),
 
         'class-with-one-dependency' => array(
-            'class' => '\DirtyNeedle\PhpunitTest\FixtureClasses\ClassWithOneDependency',
+            'class' => '\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithOneDependency',
             'arguments' => array(
                 'simple-dependency'
             )

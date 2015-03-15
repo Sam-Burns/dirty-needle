@@ -1,5 +1,5 @@
 <?php
-namespace DirtyNeedle\PhpunitTest\FixtureClasses;
+namespace DirtyNeedle\TestFixtures\IllegalCyclicDependencies;
 
 class ClassA
 {
