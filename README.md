@@ -32,7 +32,7 @@ return array(
 Then get stuff out of your container, like this:
 
 ```php
-$diContainer = new \DirtyNeedle\DiContainer();
+$diContainer = \DirtyNeedle\DiContainer()::getInstance();
 $diContainer->addConfigFile('/path/to/config.php');
 $classWithDependency = $diContainer->get('class-with-dependency');
 ```
