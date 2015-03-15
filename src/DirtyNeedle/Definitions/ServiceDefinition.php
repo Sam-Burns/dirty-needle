@@ -1,5 +1,5 @@
 <?php
-namespace DirtyNeedle;
+namespace DirtyNeedle\Definitions;
 
 use DirtyNeedle\Exception\AnonymousService;
 use DirtyNeedle\Exception\ClassnameNotSpecifiedForDependency;

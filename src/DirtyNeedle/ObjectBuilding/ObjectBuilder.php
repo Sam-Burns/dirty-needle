@@ -1,5 +1,5 @@
 <?php
-namespace DirtyNeedle;
+namespace DirtyNeedle\ObjectBuilding;
 
 class ObjectBuilder
 {

@@ -1,6 +1,7 @@
 <?php
-namespace DirtyNeedle;
+namespace DirtyNeedle\Definitions;
 
+use DirtyNeedle\Configuration\DiConfig;
 use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
 

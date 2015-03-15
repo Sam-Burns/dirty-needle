@@ -1,6 +1,10 @@
 <?php
 namespace DirtyNeedle;
 
+use DirtyNeedle\ObjectBuilding\ObjectBuilder;
+use DirtyNeedle\Definitions\Validation;
+use DirtyNeedle\Configuration\DiConfig;
+
 use DirtyNeedle\Exception\ServiceDefinitionNotFound;
 use DirtyNeedle\Exception\CyclicDependencyInDiConfig;
 use DirtyNeedle\Exception\DiConfigNotFound;

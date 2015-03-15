@@ -1,6 +1,7 @@
 <?php
-namespace DirtyNeedle;
+namespace DirtyNeedle\Configuration;
 
+use DirtyNeedle\Definitions\ServiceDefinition;
 use DirtyNeedle\Exception\ClassnameNotSpecifiedForDependency;
 use DirtyNeedle\Exception\DiConfigNotFound;
 use DirtyNeedle\Exception\DiConfigNotReadable;

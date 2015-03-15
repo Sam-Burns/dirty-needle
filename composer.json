@@ -1,12 +1,12 @@
 {
     "name": "Sam-Burns/dirty-needle",
 
-    "version": "1.2.1",
+    "version": "3.0.0",
 
     "description": "Dependency Injection container for PHP",
 
     "require": {
-        "php" : ">= 5.4.0"
+        "php" : ">= 5.4.0, < 5.6.0"
     },
 
     "require-dev": {
