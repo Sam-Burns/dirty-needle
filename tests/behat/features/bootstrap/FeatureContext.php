@@ -61,5 +61,22 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function theResultShouldBeAnInstanceOfAMockObject()
     {
         PHPUnit_Framework_Assert::assertInstanceOf('MockObject', $this->latestResultFromContainer);
+        $this->assertResultInstanceOf('MockObject');
+    }
+
+    /**
+     * @Then the result should be an instance of :classname
+     */
+    public function theResultShouldBeAnInstanceOf($classname)
+    {
+        $this->assertResultInstanceOf($classname);
+    }
+
+    /**
+     * @param string $expectedClassname
+     */
+    private function assertResultInstanceOf($expectedClassname)
+    {
+        PHPUnit_Framework_Assert::assertInstanceOf($expectedClassname, $this->latestResultFromContainer);
     }
 }
