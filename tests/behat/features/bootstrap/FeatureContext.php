@@ -9,8 +9,57 @@ use DirtyNeedle\DiContainer;
 
 class FeatureContext implements Context, SnippetAcceptingContext
 {
+    /** @var DiContainer */
+    private $container;
+
+    /** @var object */
+    private $latestResultFromContainer;
+
     public function __construct()
     {
-        require_once __DIR__ . '/../../../../src-dev/bootstrap.php';
+        require_once __DIR__ . '/../../../bootstrap.php';
+        $this->container = DiContainer::getInstance();
+    }
+
+    /**
+     * @afterScenario
+     */
+    public function tearDown()
+    {
+        $this->container->reset();
+    }
+
+    /**
+     * @Given my container is configured with :configFilename
+     */
+    public function myContainerIsConfiguredWith($configFilename)
+    {
+        $this->container->addConfigFile(DIRTYNEEDLE_TEST_DIR . '/fixtures/config_files/' . $configFilename);
+    }
+
+    /**
+     * @Given I inject a mock :arg1 into the container as service ID :arg2
+     */
+    public function iInjectAMockIntoTheContainerAsServiceId($classname, $serviceId)
+    {
+        $phpunitMockGenerator = new PHPUnit_Framework_MockObject_Generator();
+        $mockObject = $phpunitMockGenerator->getMock($classname, [], [], 'MockObject', false, false);
+        $this->container->set($serviceId, $mockObject);
+    }
+
+    /**
+     * @When I get the service :serviceId out of the container
+     */
+    public function iGetTheServiceOutOfTheContainer($serviceId)
+    {
+        $this->latestResultFromContainer = $this->container->get($serviceId);
+    }
+
+    /**
+     * @Then the result should be an instance of a mock object
+     */
+    public function theResultShouldBeAnInstanceOfAMockObject()
+    {
+        PHPUnit_Framework_Assert::assertInstanceOf('MockObject', $this->latestResultFromContainer);
     }
 }

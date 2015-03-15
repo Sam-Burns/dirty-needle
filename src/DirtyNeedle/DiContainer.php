@@ -56,8 +56,8 @@ class DiContainer
      */
     public function get($serviceId)
     {
-        if (isset($objects[$serviceId])) {
-            return $objects[$serviceId];
+        if (isset($this->objects[$serviceId])) {
+            return $this->objects[$serviceId];
         }
 
         $this->validation->validateServiceRequested($serviceId, $this->diConfig);
