@@ -79,7 +79,8 @@ class DiContainer
      */
     public function set($serviceIdString, $object)
     {
-        $this->objects[$serviceIdString] = $object;
+        $serviceId = new ServiceId($serviceIdString);
+        $this->objects[(string)$serviceId] = $object;
     }
 
     /**

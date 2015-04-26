@@ -16,8 +16,8 @@ class ServiceId
         if ($serviceIdAsString == '') {
             throw new AnonymousService();
         }
-        if (strpos($serviceIdAsString, '@') === 0) {
-            $serviceIdAsString = substr($serviceIdAsString, 1);
+        if (strpos($serviceIdAsString, '@') !== 0) {
+            $serviceIdAsString = '@' . $serviceIdAsString;
         }
         $this->serviceIdAsString = (string)$serviceIdAsString;
     }

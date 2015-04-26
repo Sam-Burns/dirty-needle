@@ -16,13 +16,13 @@ Set up a config file which returns a PHP array, like this:
 <?php
 return array(
     'dirty-needle' => array(
-        'dependency' => array(
+        '@dependency' => array(
             'class' => '\Dependency'
         ),
-        'class-with-dependency' => array(
+        '@class-with-dependency' => array(
             'class' => '\ClassWithDependency',
             'arguments' => array(
-                'dependency'
+                '@dependency'
             )
         ),
     ),

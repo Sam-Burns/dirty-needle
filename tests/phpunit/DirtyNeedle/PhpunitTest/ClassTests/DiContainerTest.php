@@ -52,7 +52,7 @@ class DiContainerTest extends TestCase
 
     /**
      * @expectedException \DirtyNeedle\Exception\CyclicDependencyInDiConfig
-     * @expectedExceptionMessage Cyclic dependency found while trying to retrieve "class-a" from container
+     * @expectedExceptionMessage Cyclic dependency found while trying to retrieve "@class-a" from container
      */
     public function testCanDetectCyclicDependencies()
     {

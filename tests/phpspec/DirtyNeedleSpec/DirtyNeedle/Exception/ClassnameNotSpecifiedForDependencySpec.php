@@ -20,6 +20,6 @@ class ClassnameNotSpecifiedForDependencySpec extends ObjectBehavior
 
     function it_has_a_helpful_message()
     {
-        $this->getMessage()->shouldBe('Classname not specified for service with ID "service-id"');
+        $this->getMessage()->shouldBe('Classname not specified for service with ID "@service-id"');
     }
 }

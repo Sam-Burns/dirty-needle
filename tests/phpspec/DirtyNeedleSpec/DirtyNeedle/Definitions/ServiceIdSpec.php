@@ -19,7 +19,7 @@ class ServiceIdSpec extends ObjectBehavior
 
     function it_can_become_a_string_array_key()
     {
-        $this->__toString()->shouldBe('service');
+        $this->__toString()->shouldBe('@service');
     }
 
     function it_can_validate_itself_when_invalid()
@@ -30,6 +30,6 @@ class ServiceIdSpec extends ObjectBehavior
     function it_can_strip_at_signs_from_service_ids()
     {
         $this->beConstructedWith('@service');
-        $this->__toString()->shouldBe('service');
+        $this->__toString()->shouldBe('@service');
     }
 }
