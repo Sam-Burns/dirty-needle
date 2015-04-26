@@ -26,4 +26,10 @@ class ServiceIdSpec extends ObjectBehavior
     {
         $this->shouldThrow('\DirtyNeedle\Exception\AnonymousService')->during('__construct', array(''));
     }
+
+    function it_can_strip_at_signs_from_service_ids()
+    {
+        $this->beConstructedWith('@service');
+        $this->__toString()->shouldBe('service');
+    }
 }

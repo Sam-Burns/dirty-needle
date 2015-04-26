@@ -15,7 +15,7 @@ return array(
         'class-with-one-dependency' => array(
             'class' => '\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithOneDependency',
             'arguments' => array(
-                'simple-dependency'
+                '@simple-dependency'
             )
         ),
 
