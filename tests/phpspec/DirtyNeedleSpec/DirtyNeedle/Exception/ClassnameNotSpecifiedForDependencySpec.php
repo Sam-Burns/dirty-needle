@@ -2,6 +2,7 @@
 
 namespace DirtyNeedleSpec\DirtyNeedle\Exception;
 
+use DirtyNeedle\Definitions\ServiceId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -9,7 +10,7 @@ class ClassnameNotSpecifiedForDependencySpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedThrough('constructWithServiceId', ['service-id']);
+        $this->beConstructedThrough('constructWithServiceId', [new ServiceId('service-id')]);
     }
 
     function it_is_initializable()

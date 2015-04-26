@@ -11,10 +11,10 @@ class Validation
      * @throws ServiceDefinitionNotFound
      * @throws CyclicDependencyInDiConfig
      *
-     * @param string   $serviceId
-     * @param DiConfig $diConfig
+     * @param ServiceId $serviceId
+     * @param DiConfig  $diConfig
      */
-    public function validateServiceRequested($serviceId, DiConfig $diConfig)
+    public function validateServiceRequested(ServiceId $serviceId, DiConfig $diConfig)
     {
         $this->checkServiceIsDefined($serviceId, $diConfig);
         $this->checkForCyclicDependencies($serviceId, $diConfig);
@@ -23,10 +23,10 @@ class Validation
     /**
      * @throws ServiceDefinitionNotFound
      *
-     * @param string   $serviceId
-     * @param DiConfig $diConfig
+     * @param ServiceId $serviceId
+     * @param DiConfig  $diConfig
      */
-    private function checkServiceIsDefined($serviceId, DiConfig $diConfig)
+    private function checkServiceIsDefined(ServiceId $serviceId, DiConfig $diConfig)
     {
         if (!$diConfig->serviceIsDefined($serviceId)) {
             throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
@@ -36,10 +36,10 @@ class Validation
     /**
      * @throws CyclicDependencyInDiConfig
      *
-     * @param string   $serviceId
-     * @param DiConfig $diConfig
+     * @param ServiceId $serviceId
+     * @param DiConfig  $diConfig
      */
-    private function checkForCyclicDependencies($serviceId, DiConfig $diConfig)
+    private function checkForCyclicDependencies(ServiceId $serviceId, DiConfig $diConfig)
     {
         $this->cyclicDependencyTest($diConfig, $serviceId, $serviceId, []);
     }
@@ -47,13 +47,17 @@ class Validation
     /**
      * @throws CyclicDependencyInDiConfig
      *
-     * @param DiConfig $diConfig
-     * @param string   $originallyRequestedServiceId
-     * @param string   $serviceIdToTest
-     * @param array    $parentDependencies
+     * @param DiConfig    $diConfig
+     * @param ServiceId   $originallyRequestedServiceId
+     * @param ServiceId   $serviceIdToTest
+     * @param ServiceId[] $parentDependencies
      */
-    private function cyclicDependencyTest(DiConfig $diConfig, $originallyRequestedServiceId, $serviceIdToTest, $parentDependencies)
-    {
+    private function cyclicDependencyTest(
+        DiConfig $diConfig,
+        ServiceId $originallyRequestedServiceId,
+        ServiceId $serviceIdToTest,
+        $parentDependencies
+    ) {
         if (in_array($serviceIdToTest, $parentDependencies)) {
             throw CyclicDependencyInDiConfig::constructWithServiceId($originallyRequestedServiceId);
         }
@@ -62,8 +66,28 @@ class Validation
                 $diConfig,
                 $originallyRequestedServiceId,
                 $childDependencyId,
-                array_merge($parentDependencies, [$serviceIdToTest])
+                $this->mergeArrays($parentDependencies, [$serviceIdToTest])
             );
         }
+    }
+
+    /**
+     * @param ServiceId $serviceIdArray1
+     * @param ServiceId $serviceIdArray2
+     * @return ServiceId[]
+     */
+    private function mergeArrays($serviceIdArray1, $serviceIdArray2)
+    {
+        $mergedArray = [];
+
+        foreach ($serviceIdArray1 as $serviceId) {
+            $mergedArray[(string)$serviceId] = $serviceId;
+        }
+
+        foreach ($serviceIdArray2 as $serviceId) {
+            $mergedArray[(string)$serviceId] = $serviceId;
+        }
+
+        return $mergedArray;
     }
 }

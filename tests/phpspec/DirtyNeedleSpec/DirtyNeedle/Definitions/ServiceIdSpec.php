@@ -16,4 +16,14 @@ class ServiceIdSpec extends ObjectBehavior
     {
         $this->shouldHaveType('DirtyNeedle\Definitions\ServiceId');
     }
+
+    function it_can_become_a_string_array_key()
+    {
+        $this->__toString()->shouldBe('service');
+    }
+
+    function it_can_validate_itself_when_invalid()
+    {
+        $this->shouldThrow('\DirtyNeedle\Exception\AnonymousService')->during('__construct', array(''));
+    }
 }

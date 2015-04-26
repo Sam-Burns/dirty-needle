@@ -2,6 +2,7 @@
 namespace DirtyNeedle\Configuration;
 
 use DirtyNeedle\Definitions\ServiceDefinition;
+use DirtyNeedle\Definitions\ServiceId;
 use DirtyNeedle\Exception\ClassnameNotSpecifiedForDependency;
 use DirtyNeedle\Exception\DiConfigNotFound;
 use DirtyNeedle\Exception\DiConfigNotReadable;
@@ -78,58 +79,58 @@ class DiConfig
     {
         $serviceDefinitions = [];
         foreach ($fileContents['dirty-needle'] as $serviceId => $serviceDefinitionArray) {
-            $serviceDefinitions[$serviceId] = new ServiceDefinition($serviceId, $serviceDefinitionArray);
+            $serviceDefinitions[$serviceId] = new ServiceDefinition(new ServiceId($serviceId), $serviceDefinitionArray);
         };
         return $serviceDefinitions;
     }
 
     /**
-     * @param string $serviceId
+     * @param ServiceId $serviceId
      * @return bool
      */
-    public function serviceIsDefined($serviceId)
+    public function serviceIsDefined(ServiceId $serviceId)
     {
-        return isset($this->definitions[$serviceId]);
+        return isset($this->definitions[(string)$serviceId]);
     }
 
     /**
      * @throws ServiceDefinitionNotFound
      * @throws ClassnameNotSpecifiedForDependency
      *
-     * @param string $serviceId
+     * @param ServiceId $serviceId
      * @return string
      */
-    public function getClassname($serviceId)
+    public function getClassname(ServiceId $serviceId)
     {
         if (!$this->serviceIsDefined($serviceId)) {
             throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
         }
-        return $this->definitions[$serviceId]->getClass();
+        return $this->definitions[(string)$serviceId]->getClass();
     }
 
     /**
      * @throws ServiceDefinitionNotFound
      *
-     * @param string $serviceId
+     * @param ServiceId $serviceId
      * @return string[]
      */
-    public function getArguments($serviceId)
+    public function getArguments(ServiceId $serviceId)
     {
         if (!$this->serviceIsDefined($serviceId)) {
             throw ServiceDefinitionNotFound::constructWithServiceId($serviceId);
         }
-        return $this->definitions[$serviceId]->getArguments();
+        return $this->definitions[(string)$serviceId]->getArguments();
     }
 
     /**
      * @throws ServiceDefinitionNotFound
      *
-     * @param string $serviceId
+     * @param ServiceId $serviceId
      * @return bool
      */
-    public function serviceHasNoArguments($serviceId)
+    public function serviceHasNoArguments(ServiceId $serviceId)
     {
-        return !$this->definitions[$serviceId]->hasArguments();
+        return !$this->definitions[(string)$serviceId]->hasArguments();
     }
 
     public function reset()

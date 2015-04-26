@@ -1,6 +1,7 @@
 <?php
 namespace DirtyNeedle;
 
+use DirtyNeedle\Definitions\ServiceId;
 use DirtyNeedle\ObjectBuilding\ObjectBuilder;
 use DirtyNeedle\Definitions\Validation;
 use DirtyNeedle\Configuration\DiConfig;
@@ -56,13 +57,15 @@ class DiContainer
      * @throws ServiceDefinitionNotFound
      * @throws CyclicDependencyInDiConfig
      *
-     * @param string $serviceId
+     * @param string $serviceIdString
      * @return object
      */
-    public function get($serviceId)
+    public function get($serviceIdString)
     {
-        if (isset($this->objects[$serviceId])) {
-            return $this->objects[$serviceId];
+        $serviceId = new ServiceId($serviceIdString);
+
+        if (isset($this->objects[(string)$serviceId])) {
+            return $this->objects[(string)$serviceId];
         }
 
         $this->validation->validateServiceRequested($serviceId, $this->diConfig);
@@ -71,12 +74,12 @@ class DiContainer
     }
 
     /**
-     * @param $serviceId
+     * @param $serviceIdString
      * @param $object
      */
-    public function set($serviceId, $object)
+    public function set($serviceIdString, $object)
     {
-        $this->objects[$serviceId] = $object;
+        $this->objects[$serviceIdString] = $object;
     }
 
     /**
@@ -91,10 +94,10 @@ class DiContainer
     }
 
     /**
-     * @param string $serviceId
+     * @param ServiceId $serviceId
      * @return object
      */
-    private function buildObject($serviceId)
+    private function buildObject(ServiceId $serviceId)
     {
         $classname = $this->diConfig->getClassname($serviceId);
         if ($this->diConfig->serviceHasNoArguments($serviceId)) {

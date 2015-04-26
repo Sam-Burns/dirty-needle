@@ -2,6 +2,7 @@
 
 namespace DirtyNeedleSpec\DirtyNeedle\Definitions;
 
+use DirtyNeedle\Definitions\ServiceId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -9,7 +10,7 @@ class ServiceDefinitionSpec extends ObjectBehavior
 {
     function let()
     {
-        $serviceId = 'service-id';
+        $serviceId = new ServiceId('service-id');
 
         $definitionArray = array(
             'class' => '\DirtyNeedle\TestFixtures\NestedDependencies\ClassWithOneDependency',
@@ -33,7 +34,7 @@ class ServiceDefinitionSpec extends ObjectBehavior
 
     function it_can_get_arguments()
     {
-        $this->getArguments()->shouldBe(['simple-dependency']);
+        $this->getArguments()->shouldBeLike([new ServiceId('simple-dependency')]);
     }
 
     function it_knows_if_there_are_arguments()
@@ -45,7 +46,7 @@ class ServiceDefinitionSpec extends ObjectBehavior
     {
         // ARRANGE
 
-        $serviceId = 'service-id';
+        $serviceId = new ServiceId('service-id');
 
         $definitionArray = ['class' => ''];
 

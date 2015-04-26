@@ -1,7 +1,6 @@
 <?php
 namespace DirtyNeedle\Definitions;
 
-use DirtyNeedle\Exception\AnonymousService;
 use DirtyNeedle\Exception\ClassnameNotSpecifiedForDependency;
 
 class ServiceDefinition
@@ -13,15 +12,24 @@ class ServiceDefinition
     private $serviceId;
 
     /**
-     * @param string $serviceId
-     * @param array  $definitionArray
+     * @param ServiceId $serviceId
+     * @param array     $definitionArray
      */
-    public function __construct($serviceId, $definitionArray)
+    public function __construct(ServiceId $serviceId, $definitionArray)
     {
-        if (!(is_string($serviceId) && strlen($serviceId) >= 1)) {
-            throw new AnonymousService;
-        }
         $this->definitionArray = $definitionArray;
+
+        $argumentsToUse = [];
+
+        if (isset($this->definitionArray['arguments'])) {
+            foreach ($this->definitionArray['arguments'] as $argument) {
+                $argumentsToUse[] = new ServiceId($argument);
+            }
+            $this->definitionArray['arguments'] = $argumentsToUse;
+        } else {
+            $this->definitionArray['arguments'] = [];
+        }
+
         $this->serviceId = $serviceId;
     }
 
